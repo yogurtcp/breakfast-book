@@ -211,3 +211,15 @@ main { padding: 16px; max-width: 980px; margin: 0 auto; outline: none; }
 .heart.on, .heart-lg.on { background: var(--tomato); color: #fff; }
 .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .title-row h2 { margin-top: 4px; }
+
+/* Hard-to-find ingredients */
+.meta .adv { color: #8a5a00; font-weight: 600; }
+.tag.adv { background: #fdf0d5; color: #8a5a00; }
+.ing-toggle .sp { color: #8a5a00; font-size: .78rem; font-weight: 600; white-space: nowrap; }
+.sp-note { background: #fdf0d5; color: #6b4600; border-radius: 12px; padding: 10px 14px; margin: 0 0 14px; font-size: .92rem; line-height: 1.45; }
+.sp-note.soft { background: var(--card); color: var(--muted); border: 1px dashed var(--line); }
+@media (prefers-color-scheme: dark) {
+  .meta .adv, .ing-toggle .sp { color: #f0c46c; }
+  .tag.adv { background: #3a2e14; color: #f0c46c; }
+  .sp-note { background: #3a2e14; color: #f3dca8; }
+}

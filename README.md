@@ -13,6 +13,7 @@ A small, installable web app with healthy breakfast recipes in **English and Heb
   - 🇮🇳 **Indian:** besan chilla (chickpea-flour pancakes)
   - 🇹🇷 **Turkish:** menemen, çılbır (poached eggs on garlic yogurt)
   - 🇻🇳 **Vietnamese:** quick phở gà (chicken noodle soup)
+- **🔎 Advanced recipes:** any recipe that needs an ingredient you usually won't find in a regular Israeli supermarket (natto, miso, dashi, wakame, kimchi) is labeled *Advanced*, and that ingredient is flagged inside the recipe. The *🛒 Regular supermarket* filter hides them. To flag another ingredient, add `special: true` to it in `data.js`.
 - **Favorites:** tap ♡ on any recipe, filter by ♥ Favorites, and use 🎲 *Pick one for me* if you can't decide.
 - **At home:** tap the ingredients you have. Recipes then sort by what you can make now and show what's missing.
 - **Shopping list:** add a recipe's missing ingredients with one tap, check items off, then move bought items into "At home". You can also share the list.

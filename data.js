@@ -1,5 +1,7 @@
 // Breakfast Book data: ingredients + recipes (English / Hebrew).
 // Recipe ingredient rows: [ingredientId, qtyEN, qtyHE, optional?]
+// Ingredients marked `special: true` are hard to find in regular Israeli supermarkets;
+// a recipe that needs one (non-optional) is automatically tagged "advanced".
 
 const CATEGORIES = {
   produce: { en: "Vegetables & fruit", he: "ירקות ופירות" },
@@ -45,7 +47,7 @@ const INGREDIENTS = {
 
   salmon:          { cat: "protein", en: "Salmon or mackerel fillet", he: "פילה סלמון או מקרל" },
   tofu:            { cat: "protein", en: "Tofu",                    he: "טופו" },
-  natto:           { cat: "protein", en: "Natto",                   he: "נאטו" },
+  natto:           { cat: "protein", special: true, en: "Natto",                   he: "נאטו" },
   chicken_breast:  { cat: "protein", en: "Chicken breast",          he: "חזה עוף" },
 
   wg_bread:        { cat: "grains",  en: "Whole-grain bread",       he: "לחם מחיטה מלאה" },
@@ -71,11 +73,11 @@ const INGREDIENTS = {
   sesame_oil:      { cat: "pantry",  en: "Toasted sesame oil",      he: "שמן שומשום קלוי" },
   sesame_seeds:    { cat: "pantry",  en: "Sesame seeds",            he: "שומשום" },
   rice_vinegar:    { cat: "pantry",  en: "Rice vinegar",            he: "חומץ אורז" },
-  miso:            { cat: "pantry",  en: "Miso paste",              he: "משחת מיסו" },
-  dashi:           { cat: "pantry",  en: "Dashi powder",            he: "אבקת דאשי" },
-  wakame:          { cat: "pantry",  en: "Dried wakame seaweed",    he: "אצות וואקמה מיובשות" },
+  miso:            { cat: "pantry", special: true,  en: "Miso paste",              he: "משחת מיסו" },
+  dashi:           { cat: "pantry", special: true,  en: "Dashi powder",            he: "אבקת דאשי" },
+  wakame:          { cat: "pantry", special: true,  en: "Dried wakame seaweed",    he: "אצות וואקמה מיובשות" },
   nori:            { cat: "pantry",  en: "Nori sheets",             he: "אצות נורי" },
-  kimchi:          { cat: "pantry",  en: "Kimchi",                  he: "קימצ׳י" },
+  kimchi:          { cat: "pantry", special: true,  en: "Kimchi",                  he: "קימצ׳י" },
   chicken_broth:   { cat: "pantry",  en: "Low-sodium chicken broth", he: "ציר עוף דל נתרן" },
   fish_sauce:      { cat: "pantry",  en: "Fish sauce",              he: "רוטב דגים" },
 
@@ -594,7 +596,7 @@ const RECIPES = [
       ["rice", "2 bowls, cooked", "2 קערות, מבושל"],
       ["miso", "2 tbsp", "2 כפות"],
       ["tofu", "150 g", "150 גרם"],
-      ["wakame", "1 tbsp", "כף"],
+      ["wakame", "1 tbsp", "כף", true],
       ["green_onion", "1 stalk", "גבעול"],
       ["dashi", "½ tsp", "½ כפית", true],
       ["cucumbers", "1", "1", true],
@@ -1030,4 +1032,5 @@ const TAGS = {
   makeahead:  { en: "Make-ahead",    he: "מכינים מראש" },
   nocook:     { en: "No cooking",    he: "בלי בישול" },
   eggfree:    { en: "Egg-free",      he: "בלי ביצים" },
+  advanced:   { en: "🔎 Advanced",    he: "🔎 מתקדם" },
 };

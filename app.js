@@ -13,7 +13,10 @@
       all: "All", canMake: "Can make now", favorites: "Favorites",
       favEmpty: "No favorites yet. Tap ♡ on any recipe you like and it shows up here.",
       pickForMe: "🎲 Pick one for me", favAdded: "Added to favorites", favRemoved: "Removed from favorites",
-      favLabel: "Favorite",
+      favLabel: "Favorite", everyday: "🛒 Regular supermarket",
+      specialLbl: "specialty shop",
+      advancedNote: (list) => `Hard to find in a regular Israeli supermarket: ${list}. Try an Asian grocer, a health-food store, or order online.`,
+      optionalNote: (list) => `${list} may be hard to find, but it's optional, so you can skip it.`,
       ready: "Ready to cook", haveOf: (a, b) => `${a}/${b} at home`,
       missingLbl: "Missing:", nothingMissing: "You have everything ✓",
       min: "min", serves: (n) => `serves ${n}`,
@@ -52,7 +55,10 @@
       all: "הכול", canMake: "אפשר להכין עכשיו", favorites: "מועדפים",
       favEmpty: "עוד אין מועדפים. לחצו על ♡ במתכון שאתם אוהבים והוא יופיע כאן.",
       pickForMe: "🎲 תבחרו לי", favAdded: "נוסף למועדפים", favRemoved: "הוסר מהמועדפים",
-      favLabel: "מועדף",
+      favLabel: "מועדף", everyday: "🛒 מהסופר הרגיל",
+      specialLbl: "חנות מיוחדת",
+      advancedNote: (list) => `קשה למצוא בסופר רגיל בישראל: ${list}. נסו חנות אסייתית, חנות טבע או הזמנה אונליין.`,
+      optionalNote: (list) => `${list} עלול להיות קשה להשגה, אבל הוא לא חובה, אז אפשר לוותר.`,
       ready: "מוכן לבישול", haveOf: (a, b) => `${a}/${b} יש בבית`,
       missingLbl: "חסר:", nothingMissing: "יש הכול ✓",
       min: "דק׳", serves: (n) => `${n} מנות`,
@@ -85,6 +91,11 @@
   };
 
   const STAPLES = ["olive_oil", "salt", "pepper", "paprika", "cumin", "cinnamon"];
+
+  // Tag recipes that need a hard-to-find ingredient (non-optional) as "advanced".
+  const specialReq = (r) => r.ingredients.filter((x) => !x[3] && INGREDIENTS[x[0]].special).map((x) => x[0]);
+  const specialAny = (r) => r.ingredients.filter((x) => INGREDIENTS[x[0]].special).map((x) => x[0]);
+  RECIPES.forEach((r) => { if (specialReq(r).length && !r.tags.includes("advanced")) r.tags.push("advanced"); });
 
   // ---------- State ----------
   const KEY = "breakfast-book:v1";
@@ -182,10 +193,11 @@
   }
 
   function renderRecipes() {
-    const filters = ["all", "fav", "canmake", ...Object.keys(CUISINES).map((c) => "c:" + c), ...Object.keys(TAGS)];
+    const filters = ["all", "fav", "canmake", "everyday", ...Object.keys(CUISINES).map((c) => "c:" + c), ...Object.keys(TAGS)];
     let list = RECIPES.map((r, i) => ({ r, i, m: match(r) }));
     if (state.filter === "fav") list = list.filter((x) => isFav(x.r.id));
     else if (state.filter === "canmake") list = list.filter((x) => x.m.missing.length === 0);
+    else if (state.filter === "everyday") list = list.filter((x) => !x.r.tags.includes("advanced"));
     else if (state.filter.startsWith("c:")) list = list.filter((x) => x.r.cuisine === state.filter.slice(2));
     else if (state.filter !== "all") list = list.filter((x) => x.r.tags.includes(state.filter));
     if (state.pantry.length) {
@@ -195,6 +207,7 @@
     const chips = filters.map((f) => {
       const label = f === "all" ? t("all") : f === "canmake" ? t("canMake")
         : f === "fav" ? "♥ " + t("favorites") + (state.favs.length ? ` (${state.favs.length})` : "")
+        : f === "everyday" ? t("everyday")
         : f.startsWith("c:") ? CUISINES[f.slice(2)].flag + " " + L(CUISINES[f.slice(2)]) : L(TAGS[f]);
       return `<button class="chip" data-filter="${f}" aria-pressed="${state.filter === f}">${esc(label)}</button>`;
     }).join("");
@@ -213,7 +226,7 @@
         <div class="thumb">${imgTag(r, 640)}${pill}${heartBtn(r.id, "heart")}</div>
         <div class="card-body">
           <h3>${esc(L(r.title))}</h3>
-          <div class="meta"><span>${CUISINES[r.cuisine].flag} ${esc(L(CUISINES[r.cuisine]))}</span><span>⏱ ${r.minutes} ${esc(t("min"))}</span><span>👥 ${esc(t("serves", r.serves))}</span></div>
+          <div class="meta"><span>${CUISINES[r.cuisine].flag} ${esc(L(CUISINES[r.cuisine]))}</span><span>⏱ ${r.minutes} ${esc(t("min"))}</span><span>👥 ${esc(t("serves", r.serves))}</span>${r.tags.includes("advanced") ? `<span class="adv">${esc(L(TAGS.advanced))}</span>` : ""}</div>
           ${miss}
         </div></article>`;
     }).join("");
@@ -310,11 +323,15 @@
       const cart = h ? "" : `<button class="cart-btn ${onList(id) ? "added" : ""}" data-cart="${id}" aria-label="Add to shopping list">${onList(id) ? "✓🛒" : "+🛒"}</button>`;
       return `<li><button class="ing-toggle ${h ? "have" : ""}" data-ing="${id}">
           <span class="dot">${h ? "✓" : ""}</span>
-          <span><b>${esc(ingName(id))}</b> <span class="q">· ${esc(q)}</span>${opt ? ` <span class="opt">(${esc(t("optional"))})</span>` : ""}</span>
+          <span><b>${esc(ingName(id))}</b> <span class="q">· ${esc(q)}</span>${opt ? ` <span class="opt">(${esc(t("optional"))})</span>` : ""}${INGREDIENTS[id].special ? ` <span class="sp">🔎 ${esc(t("specialLbl"))}</span>` : ""}</span>
         </button>${cart}</li>`;
     }).join("");
     const steps = L(r.steps).map((s) => `<li>${esc(s)}</li>`).join("");
-    const tags = r.tags.map((x) => `<span class="tag">${esc(L(TAGS[x]))}</span>`).join("");
+    const tags = r.tags.map((x) => `<span class="tag ${x === "advanced" ? "adv" : ""}">${esc(L(TAGS[x]))}</span>`).join("");
+    const reqSp = specialReq(r), optSp = specialAny(r).filter((id) => !reqSp.includes(id));
+    const spNote = reqSp.length
+      ? `<div class="sp-note">🔎 ${esc(t("advancedNote", reqSp.map(ingName).join(", ")))}</div>`
+      : optSp.length ? `<div class="sp-note soft">🔎 ${esc(t("optionalNote", optSp.map(ingName).join(", ")))}</div>` : "";
     const cta = m.missing.length
       ? `<button class="btn" id="add-missing">🛒 ${esc(t("addMissing", m.missing.length))}</button>`
       : `<button class="btn secondary" disabled>${esc(t("allAtHome"))}</button>`;
@@ -326,6 +343,7 @@
         <div class="tags">${tags}</div>
         <p class="blurb">${esc(L(r.blurb))}</p>
         <div class="why"><b>💚 ${esc(t("why"))}</b>${esc(L(r.why))}</div>
+        ${spNote}
         <h3>${esc(t("ingredients"))} <small>${esc(t("tapToToggle"))}</small></h3>
         <ul class="ings">${ings}</ul>
         <h3>${esc(t("steps"))}</h3>
