@@ -5,10 +5,10 @@ A small, installable web app with healthy breakfast recipes in **English and Heb
 **Live app:** https://yogurtcp.github.io/breakfast-book/
 
 ## What it does
-- **Recipes:** 21 healthy breakfasts from seven cuisines, filterable by cuisine. Each comes with steps and a short "why it's healthy" note.
+- **Recipes:** 22 healthy breakfasts from seven cuisines, filterable by cuisine. Each comes with steps and a short "why it's healthy" note.
   - 🫒 **Mediterranean:** boiled eggs with Israeli salad, shakshuka, green shakshuka, ful, labneh, omelette, avocado and egg toast, scrambled eggs, overnight oats, oatmeal and a yogurt bowl
   - 🇯🇵 **Japanese:** grilled fish with miso soup and rice, natto rice, tamagoyaki
-  - 🇨🇳 **Chinese:** millet congee, tomato and egg stir-fry
+  - 🇨🇳 **Chinese:** millet congee, savory oat congee, tomato and egg stir-fry
   - 🇰🇷 **Korean:** gyeran-jjim (steamed egg)
   - 🇮🇳 **Indian:** besan chilla (chickpea-flour pancakes)
   - 🇹🇷 **Turkish:** menemen, çılbır (poached eggs on garlic yogurt)
@@ -48,6 +48,7 @@ Photos are hotlinked from **Wikimedia Commons** under their free licenses (CC0 /
 | Natto rice | [Commons file](https://commons.wikimedia.org/wiki/File:Natto_and_negi_on_rice.jpg) | Dllu (CC BY-SA 4.0) |
 | Tamagoyaki | [Commons file](https://commons.wikimedia.org/wiki/File:Tamagoyaki_(3099935773).jpg) | Jessica Spengler (CC BY 2.0) |
 | Millet congee | [Commons file](https://commons.wikimedia.org/wiki/File:A_BOWL_OF_FOXTAIL_MILLET_CONGEE.jpg) | Dinkun Chen (CC BY-SA 4.0) |
+| Savory oat congee | [Commons file](https://commons.wikimedia.org/wiki/File:Chicken_porridge_with_an_egg.jpg) | ProjectManhattan (CC BY-SA 3.0); shows rice congee |
 | Tomato & egg stir-fry | [Commons file](https://commons.wikimedia.org/wiki/File:Tomato_and_eggs.JPG) | Godofnanjing (CC BY-SA 3.0) |
 | Gyeran-jjim | [Commons file](https://commons.wikimedia.org/wiki/File:Gyeran-jjim.jpg) | stu_spivack (CC BY-SA 2.0) |
 | Besan chilla | [Commons file](https://commons.wikimedia.org/wiki/File:Besan_chilla.jpg) | Patelaahil (CC BY-SA 4.0) |

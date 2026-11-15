@@ -348,7 +348,7 @@
         <ul class="ings">${ings}</ul>
         <h3>${esc(t("steps"))}</h3>
         <ol class="steps">${steps}</ol>
-        <p class="credit">${esc(t("photo"))}: <a href="${fileUrl(r.file)}" target="_blank" rel="noopener">${esc(r.author)}</a> ${esc(t("via"))}</p>
+        <p class="credit">${esc(t("photo"))}: <a href="${fileUrl(r.file)}" target="_blank" rel="noopener">${esc(r.author)}</a> ${esc(t("via"))}${r.photoNote ? ` (${esc(L(r.photoNote))})` : ""}</p>
         <div class="sticky-cta">${cta}</div>
       </div>`;
   }
