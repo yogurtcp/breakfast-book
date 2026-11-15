@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Breakfast Book</title>
+  <meta name="description" content="Healthy breakfast recipes in English and Hebrew, with a pantry picker and a shopping list.">
+  <meta name="theme-color" content="#5b7a3a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="icons/favicon.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Breakfast">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="icons/favicon.png" alt="" width="28" height="28">
+      <h1 id="app-title">Breakfast Book</h1>
+    </div>
+    <div class="top-actions">
+      <button id="install-btn" class="ghost" hidden></button>
+      <button id="about-btn" class="icon-btn" aria-label="About">ⓘ</button>
+      <button id="lang-btn" class="lang-btn" aria-label="Switch language">עב</button>
+    </div>
+  </header>
+
+  <main id="view" tabindex="-1"></main>
+
+  <nav class="tabbar" role="tablist">
+    <button data-tab="recipes" role="tab"><span class="ti">🍳</span><span class="tl" data-i="tabRecipes"></span></button>
+    <button data-tab="pantry" role="tab"><span class="ti">🧺</span><span class="tl" data-i="tabPantry"></span><span class="badge" id="pantry-badge" hidden></span></button>
+    <button data-tab="shopping" role="tab"><span class="ti">🛒</span><span class="tl" data-i="tabShopping"></span><span class="badge" id="shop-badge" hidden></span></button>
+  </nav>
+
+  <div id="sheet" class="sheet" hidden>
+    <div class="sheet-backdrop" data-close></div>
+    <article class="sheet-panel" role="dialog" aria-modal="true">
+      <button class="sheet-close" data-close aria-label="Close">✕</button>
+      <div id="sheet-body"></div>
+    </article>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
