@@ -37,10 +37,16 @@ const INGREDIENTS = {
   cilantro:        { cat: "produce", en: "Cilantro",                he: "כוסברה" },
   ginger:          { cat: "produce", en: "Fresh ginger",            he: "ג׳ינג׳ר טרי" },
   green_chili:     { cat: "produce", en: "Green chili",             he: "פלפל צ׳ילי ירוק" },
+  green_pepper:    { cat: "produce", en: "Light green peppers",     he: "פלפל ירוק בהיר" },
+  lime:            { cat: "produce", en: "Lime",                    he: "ליים" },
+  bean_sprouts:    { cat: "produce", en: "Bean sprouts",            he: "נבטי שעועית" },
+  mint:            { cat: "produce", en: "Mint or Thai basil",      he: "נענע או בזיליקום תאילנדי" },
+  dill:            { cat: "produce", en: "Dill",                    he: "שמיר" },
 
   salmon:          { cat: "protein", en: "Salmon or mackerel fillet", he: "פילה סלמון או מקרל" },
   tofu:            { cat: "protein", en: "Tofu",                    he: "טופו" },
   natto:           { cat: "protein", en: "Natto",                   he: "נאטו" },
+  chicken_breast:  { cat: "protein", en: "Chicken breast",          he: "חזה עוף" },
 
   wg_bread:        { cat: "grains",  en: "Whole-grain bread",       he: "לחם מחיטה מלאה" },
   wg_pita:         { cat: "grains",  en: "Whole-wheat pita",        he: "פיתה מקמח מלא" },
@@ -48,6 +54,7 @@ const INGREDIENTS = {
   rice:            { cat: "grains",  en: "Rice (brown or short-grain)", he: "אורז (מלא או עגול)" },
   millet:          { cat: "grains",  en: "Millet",                  he: "דוחן" },
   chickpea_flour:  { cat: "grains",  en: "Chickpea flour (besan)",  he: "קמח חומוס (בסאן)" },
+  rice_noodles:    { cat: "grains",  en: "Flat rice noodles",       he: "אטריות אורז רחבות" },
 
   olive_oil:       { cat: "pantry",  en: "Extra-virgin olive oil", he: "שמן זית כתית מעולה" },
   crushed_tomatoes:{ cat: "pantry",  en: "Crushed tomatoes (can)",  he: "עגבניות מרוסקות (קופסה)" },
@@ -69,6 +76,8 @@ const INGREDIENTS = {
   wakame:          { cat: "pantry",  en: "Dried wakame seaweed",    he: "אצות וואקמה מיובשות" },
   nori:            { cat: "pantry",  en: "Nori sheets",             he: "אצות נורי" },
   kimchi:          { cat: "pantry",  en: "Kimchi",                  he: "קימצ׳י" },
+  chicken_broth:   { cat: "pantry",  en: "Low-sodium chicken broth", he: "ציר עוף דל נתרן" },
+  fish_sauce:      { cat: "pantry",  en: "Fish sauce",              he: "רוטב דגים" },
 
   salt:            { cat: "spices",  en: "Salt",                    he: "מלח" },
   pepper:          { cat: "spices",  en: "Black pepper",            he: "פלפל שחור" },
@@ -78,6 +87,7 @@ const INGREDIENTS = {
   zaatar:          { cat: "spices",  en: "Za'atar",                 he: "זעתר" },
   chili_flakes:    { cat: "spices",  en: "Chili flakes",            he: "צ'ילי גרוס" },
   turmeric:        { cat: "spices",  en: "Turmeric",                he: "כורכום" },
+  star_anise:      { cat: "spices",  en: "Star anise",              he: "כוכב אניס" },
 };
 
 // Photos: Wikimedia Commons (freely licensed). `file` is the exact Commons file name.
@@ -859,6 +869,146 @@ const RECIPES = [
       ],
     },
   },
+
+  // ---------- Turkey & Vietnam ----------
+  {
+    id: "menemen",
+    file: "Menemen in pan.jpg",
+    author: "FakirNL",
+    cuisine: "tr",
+    emoji: "🍳",
+    minutes: 20, serves: 2,
+    tags: ["protein", "veg", "lowsugar"],
+    title: { en: "Menemen", he: "מנמן" },
+    blurb: {
+      en: "Turkey's answer to shakshuka: soft eggs stirred into jammy tomatoes and green peppers.",
+      he: "התשובה הטורקית לשקשוקה: ביצים רכות שמקושקשות לתוך עגבניות ופלפלים ירוקים מבושלים.",
+    },
+    why: {
+      en: "Eggs plus two vegetables, cooked in olive oil. The eggs are gently scrambled into the sauce instead of poached.",
+      he: "ביצים ושני ירקות, מבושלים בשמן זית. הביצים מקושקשות בעדינות לתוך הרוטב במקום להיות עלומות.",
+    },
+    ingredients: [
+      ["olive_oil", "2 tbsp", "2 כפות"],
+      ["green_pepper", "2", "2"],
+      ["tomatoes", "4 ripe", "4 בשלות"],
+      ["eggs", "4", "4"],
+      ["salt", "to taste", "לפי הטעם"],
+      ["pepper", "to taste", "לפי הטעם"],
+      ["chili_flakes", "½ tsp", "½ כפית"],
+      ["onion", "½", "½", true],
+      ["feta", "40 g", "40 גרם", true],
+      ["parsley", "handful", "חופן", true],
+      ["wg_bread", "to serve", "להגשה", true],
+    ],
+    steps: {
+      en: [
+        "Slice the peppers (and onion) and soften them in the oil for 5 minutes.",
+        "Add the chopped or grated tomatoes and cook 8–10 minutes until jammy. Season with salt, pepper and chili flakes.",
+        "Lightly beat the eggs and pour them in. Stir gently and take off the heat while they're still soft and creamy.",
+        "Top with crumbled feta and parsley. Serve with whole-grain bread.",
+      ],
+      he: [
+        "פורסים את הפלפלים (והבצל) ומרככים בשמן 5 דקות.",
+        "מוסיפים עגבניות קצוצות או מגוררות ומבשלים 8–10 דקות עד שמסמיך. מתבלים במלח, פלפל וצ׳ילי גרוס.",
+        "טורפים קלות את הביצים ויוצקים פנימה. מערבבים בעדינות ומורידים מהאש כשהן עדיין רכות וקרמיות.",
+        "מפזרים פטה מפוררת ופטרוזיליה. מגישים עם לחם מלא.",
+      ],
+    },
+  },
+  {
+    id: "cilbir",
+    file: "Çılbır - Cafe Rust 2025-03-31.jpg",
+    author: "Andy Li",
+    cuisine: "tr",
+    emoji: "🥣",
+    minutes: 15, serves: 2,
+    tags: ["protein", "lowsugar", "quick"],
+    title: { en: "Çılbır (poached eggs on garlic yogurt)", he: "צ׳ילבר (ביצים עלומות על יוגורט שום)" },
+    blurb: {
+      en: "Poached eggs on cool garlicky yogurt, with warm chili-paprika oil poured over.",
+      he: "ביצים עלומות על יוגורט שום קריר, עם שמן חם בצ׳ילי ופפריקה מעל.",
+    },
+    why: {
+      en: "Protein from both the yogurt and the eggs (about 25 g per serving). This version uses olive oil instead of the traditional butter.",
+      he: "חלבון גם מהיוגורט וגם מהביצים (בערך 25 גרם למנה). כאן משתמשים בשמן זית במקום החמאה המסורתית.",
+    },
+    ingredients: [
+      ["greek_yogurt", "250 g", "250 גרם"],
+      ["garlic", "1 clove", "שן"],
+      ["eggs", "4", "4"],
+      ["olive_oil", "2 tbsp", "2 כפות"],
+      ["paprika", "½ tsp", "½ כפית"],
+      ["chili_flakes", "½ tsp", "½ כפית"],
+      ["salt", "pinch", "קורט"],
+      ["dill", "small handful", "חופן קטן", true],
+      ["wg_bread", "to serve", "להגשה", true],
+    ],
+    steps: {
+      en: [
+        "Mix the yogurt with the grated garlic and a pinch of salt. Spread it on two plates and let it lose its fridge chill.",
+        "Poach the eggs in gently simmering water for about 3 minutes, until the whites set. Lift out with a slotted spoon.",
+        "Warm the olive oil with the paprika and chili flakes for 30 seconds, just until it turns red. Don't let it burn.",
+        "Set the eggs on the yogurt, spoon over the spiced oil and scatter with dill. Serve with bread for dipping.",
+      ],
+      he: [
+        "מערבבים את היוגורט עם שום מגורר וקורט מלח. מורחים על שתי צלחות ומשאירים שיתחמם קצת מקור המקרר.",
+        "מבשלים את הביצים במים שרותחים בעדינות כ-3 דקות, עד שהחלבון מתייצב. מוציאים בכף מחוררת.",
+        "מחממים את שמן הזית עם הפפריקה והצ׳ילי 30 שניות, רק עד שהוא מאדים. לא לשרוף.",
+        "מניחים את הביצים על היוגורט, יוצקים מעל את השמן המתובל ומפזרים שמיר. מגישים עם לחם לטבילה.",
+      ],
+    },
+  },
+  {
+    id: "pho-ga",
+    file: "Vietnamese Pho.jpg",
+    author: "Nowforever",
+    cuisine: "vn",
+    emoji: "🍜",
+    minutes: 35, serves: 2,
+    tags: ["protein", "lowsugar"],
+    title: { en: "Quick phở gà (chicken noodle soup)", he: "פו גא מהיר (מרק אטריות עוף)" },
+    blurb: {
+      en: "Vietnam's favorite breakfast, made faster with store-bought broth: aromatic chicken soup with rice noodles and lots of fresh herbs.",
+      he: "ארוחת הבוקר האהובה בווייטנאם, בגרסה מהירה עם ציר קנוי: מרק עוף ארומטי עם אטריות אורז והרבה עשבי תיבול טריים.",
+    },
+    why: {
+      en: "Lean protein, a big handful of herbs and sprouts, and a broth that fills you up for few calories. Broth and fish sauce are salty, so choose low-sodium broth.",
+      he: "חלבון רזה, חופן גדול של עשבי תיבול ונבטים, ומרק שמשביע במעט קלוריות. ציר ורוטב דגים מלוחים, אז כדאי לבחור ציר דל נתרן.",
+    },
+    ingredients: [
+      ["chicken_broth", "1 L", "1 ליטר"],
+      ["chicken_breast", "250 g", "250 גרם"],
+      ["onion", "1", "1"],
+      ["ginger", "1 thumb", "חתיכה בגודל אגודל"],
+      ["star_anise", "2", "2"],
+      ["cinnamon", "1 small stick", "מקל קטן"],
+      ["fish_sauce", "1 tbsp", "כף"],
+      ["rice_noodles", "150 g", "150 גרם"],
+      ["bean_sprouts", "2 handfuls", "2 חופנים"],
+      ["cilantro", "handful", "חופן"],
+      ["mint", "handful", "חופן"],
+      ["lime", "1", "1"],
+      ["green_onion", "1 stalk", "גבעול"],
+      ["chili_flakes", "to taste", "לפי הטעם", true],
+    ],
+    steps: {
+      en: [
+        "Halve the onion and ginger and char them cut-side down in a dry pot for 5 minutes. This is where the flavor comes from.",
+        "Add the broth, star anise and cinnamon and simmer 15 minutes.",
+        "Poach the chicken in the broth for 10–12 minutes until cooked through. Take it out and shred it. Season the broth with fish sauce.",
+        "Cook the noodles following the pack and divide between bowls.",
+        "Top with the chicken and ladle over the hot broth (strained). Add sprouts, herbs, green onion, lime wedges and chili.",
+      ],
+      he: [
+        "חוצים את הבצל והג׳ינג׳ר וחורכים אותם עם הצד החתוך למטה בסיר יבש 5 דקות. מכאן מגיע הטעם.",
+        "מוסיפים את הציר, כוכב האניס והקינמון ומבשלים על אש נמוכה 15 דקות.",
+        "מבשלים את העוף בציר 10–12 דקות עד שמוכן. מוציאים ומפרקים. מתבלים את הציר ברוטב דגים.",
+        "מבשלים את האטריות לפי ההוראות ומחלקים לקערות.",
+        "מניחים את העוף ויוצקים מעל את הציר החם (מסונן). מוסיפים נבטים, עשבי תיבול, בצל ירוק, פלחי ליים וצ׳ילי.",
+      ],
+    },
+  },
 ];
 
 const CUISINES = {
@@ -867,6 +1017,8 @@ const CUISINES = {
   cn:  { flag: "🇨🇳", en: "Chinese",       he: "סיני" },
   kr:  { flag: "🇰🇷", en: "Korean",        he: "קוריאני" },
   in:  { flag: "🇮🇳", en: "Indian",        he: "הודי" },
+  tr:  { flag: "🇹🇷", en: "Turkish",       he: "טורקי" },
+  vn:  { flag: "🇻🇳", en: "Vietnamese",    he: "וייטנאמי" },
 };
 
 const TAGS = {

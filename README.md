@@ -5,12 +5,15 @@ A small, installable web app with healthy breakfast recipes in **English and Heb
 **Live app:** https://yogurtcp.github.io/breakfast-book/
 
 ## What it does
-- **Recipes:** 18 healthy breakfasts from five cuisines, filterable by cuisine. Each comes with steps and a short "why it's healthy" note.
+- **Recipes:** 21 healthy breakfasts from seven cuisines, filterable by cuisine. Each comes with steps and a short "why it's healthy" note.
   - 🫒 **Mediterranean:** boiled eggs with Israeli salad, shakshuka, green shakshuka, ful, labneh, omelette, avocado and egg toast, scrambled eggs, overnight oats, oatmeal and a yogurt bowl
   - 🇯🇵 **Japanese:** grilled fish with miso soup and rice, natto rice, tamagoyaki
   - 🇨🇳 **Chinese:** millet congee, tomato and egg stir-fry
   - 🇰🇷 **Korean:** gyeran-jjim (steamed egg)
   - 🇮🇳 **Indian:** besan chilla (chickpea-flour pancakes)
+  - 🇹🇷 **Turkish:** menemen, çılbır (poached eggs on garlic yogurt)
+  - 🇻🇳 **Vietnamese:** quick phở gà (chicken noodle soup)
+- **Favorites:** tap ♡ on any recipe, filter by ♥ Favorites, and use 🎲 *Pick one for me* if you can't decide.
 - **At home:** tap the ingredients you have. Recipes then sort by what you can make now and show what's missing.
 - **Shopping list:** add a recipe's missing ingredients with one tap, check items off, then move bought items into "At home". You can also share the list.
 - **English ⇄ עברית** with a full right-to-left layout.
@@ -47,5 +50,8 @@ Photos are hotlinked from **Wikimedia Commons** under their free licenses (CC0 /
 | Tomato & egg stir-fry | [Commons file](https://commons.wikimedia.org/wiki/File:Tomato_and_eggs.JPG) | Godofnanjing (CC BY-SA 3.0) |
 | Gyeran-jjim | [Commons file](https://commons.wikimedia.org/wiki/File:Gyeran-jjim.jpg) | stu_spivack (CC BY-SA 2.0) |
 | Besan chilla | [Commons file](https://commons.wikimedia.org/wiki/File:Besan_chilla.jpg) | Patelaahil (CC BY-SA 4.0) |
+| Menemen | [Commons file](https://commons.wikimedia.org/wiki/File:Menemen_in_pan.jpg) | FakirNL (CC BY-SA 4.0) |
+| Çılbır | [Commons file](https://commons.wikimedia.org/wiki/File:%C3%87%C4%B1lb%C4%B1r_-_Cafe_Rust_2025-03-31.jpg) | Andy Li (CC0) |
+| Phở gà | [Commons file](https://commons.wikimedia.org/wiki/File:Vietnamese_Pho.jpg) | Nowforever (CC BY-SA 4.0) |
 
 The nutrition notes are general information, not medical advice.
