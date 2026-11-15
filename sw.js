@@ -1,5 +1,5 @@
 // Breakfast Book service worker: offline app shell + cached recipe photos.
-const VERSION = "v3";
+const VERSION = "v4";
 const SHELL = `bb-shell-${VERSION}`;
 const IMAGES = "bb-img-v1";
 const SHELL_FILES = [
@@ -53,7 +53,7 @@ self.addEventListener("fetch", (e) => {
   e.respondWith(
     caches.open(SHELL).then(async (cache) => {
       try {
-        const res = await fetch(req);
+        const res = await fetch(req, { cache: "no-cache" });
         if (res.ok) cache.put(req, res.clone());
         return res;
       } catch (_) {

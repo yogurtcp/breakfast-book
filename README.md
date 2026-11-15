@@ -22,7 +22,7 @@ A small, installable web app with healthy breakfast recipes in **English and Heb
 
 ## Editing recipes
 All recipe and ingredient data lives in [`data.js`](data.js). Each recipe ingredient row is
-`[ingredientId, quantityEN, quantityHE, optional?]`. When you change files, bump `VERSION` in `sw.js` so installed copies update.
+`[ingredientId, quantityEN, quantityHE, optional?]`. When you change files, bump `VERSION` in `sw.js` and the `?v=` numbers in `index.html` so browsers and installed copies pick up the change.
 
 ## Photo credits
 Photos are hotlinked from **Wikimedia Commons** under their free licenses (CC0 / CC BY / CC BY-SA). The author of each photo is credited on its recipe page and in the app's ⓘ About screen, with a link to the original file page:
