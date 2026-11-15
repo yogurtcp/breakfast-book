@@ -35,7 +35,7 @@
       movedN: (n) => `Moved ${n} to “At home”`,
       copied: "List copied", confirmClear: "Clear the whole shopping list?",
       install: "Install", aboutTitle: "About",
-      aboutBody: "The recipes follow the eating pattern that keeps coming out on top in nutrition research: vegetables, fruit, whole grains, legumes, nuts, olive oil, eggs and plain dairy, with little added sugar. It's general information, not medical advice.",
+      aboutBody: "Healthy breakfasts from the Mediterranean, Japan, China, Korea and India. They share the eating pattern that keeps coming out on top in nutrition research: vegetables, whole grains, legumes and soy, fish, eggs, nuts and plain dairy, with little added sugar. It's general information, not medical advice.",
       installHow: "Install it: on Android/Chrome, use the Install button or the menu → “Install app”. On iPhone, open in Safari → Share → “Add to Home Screen”.",
       offline: "It works offline once it's opened. Your pantry and list are saved on this device only.",
       credits: "Photo credits (Wikimedia Commons)",
@@ -71,7 +71,7 @@
       movedN: (n) => `${n} הועברו ל״יש בבית״`,
       copied: "הרשימה הועתקה", confirmClear: "לנקות את כל רשימת הקניות?",
       install: "התקנה", aboutTitle: "אודות",
-      aboutBody: "המתכונים בנויים לפי דפוס התזונה שחוזר שוב ושוב כמוביל במחקרי תזונה: ירקות, פירות, דגנים מלאים, קטניות, אגוזים, שמן זית, ביצים ומוצרי חלב טבעיים, עם מעט סוכר מוסף. זה מידע כללי, לא ייעוץ רפואי.",
+      aboutBody: "ארוחות בוקר בריאות מהים התיכון, יפן, סין, קוריאה והודו. המשותף להן הוא דפוס התזונה שחוזר שוב ושוב כמוביל במחקרי תזונה: ירקות, דגנים מלאים, קטניות וסויה, דגים, ביצים, אגוזים ומוצרי חלב טבעיים, עם מעט סוכר מוסף. זה מידע כללי, לא ייעוץ רפואי.",
       installHow: "התקנה: באנדרואיד/כרום, לחצו על כפתור ההתקנה או בתפריט ← ״התקנת אפליקציה״. באייפון, פתחו בספארי ← שיתוף ← ״הוסף למסך הבית״.",
       offline: "אחרי פתיחה ראשונה זה עובד גם בלי אינטרנט. מה שיש בבית ורשימת הקניות נשמרים רק במכשיר הזה.",
       credits: "קרדיט לתמונות (ויקישיתוף)",
@@ -173,16 +173,18 @@
   }
 
   function renderRecipes() {
-    const filters = ["all", "canmake", ...Object.keys(TAGS)];
+    const filters = ["all", "canmake", ...Object.keys(CUISINES).map((c) => "c:" + c), ...Object.keys(TAGS)];
     let list = RECIPES.map((r, i) => ({ r, i, m: match(r) }));
     if (state.filter === "canmake") list = list.filter((x) => x.m.missing.length === 0);
+    else if (state.filter.startsWith("c:")) list = list.filter((x) => x.r.cuisine === state.filter.slice(2));
     else if (state.filter !== "all") list = list.filter((x) => x.r.tags.includes(state.filter));
     if (state.pantry.length) {
       list.sort((a, b) => a.m.missing.length - b.m.missing.length || b.m.have / b.m.req.length - a.m.have / a.m.req.length || a.i - b.i);
     }
 
     const chips = filters.map((f) => {
-      const label = f === "all" ? t("all") : f === "canmake" ? t("canMake") : L(TAGS[f]);
+      const label = f === "all" ? t("all") : f === "canmake" ? t("canMake")
+        : f.startsWith("c:") ? CUISINES[f.slice(2)].flag + " " + L(CUISINES[f.slice(2)]) : L(TAGS[f]);
       return `<button class="chip" data-filter="${f}" aria-pressed="${state.filter === f}">${esc(label)}</button>`;
     }).join("");
 
@@ -200,7 +202,7 @@
         <div class="thumb">${imgTag(r, 640)}${pill}</div>
         <div class="card-body">
           <h3>${esc(L(r.title))}</h3>
-          <div class="meta"><span>⏱ ${r.minutes} ${esc(t("min"))}</span><span>👥 ${esc(t("serves", r.serves))}</span></div>
+          <div class="meta"><span>${CUISINES[r.cuisine].flag} ${esc(L(CUISINES[r.cuisine]))}</span><span>⏱ ${r.minutes} ${esc(t("min"))}</span><span>👥 ${esc(t("serves", r.serves))}</span></div>
           ${miss}
         </div></button>`;
     }).join("");
@@ -306,7 +308,7 @@
       <div class="hero">${imgTag(r, 1200, true)}</div>
       <div class="detail">
         <h2>${esc(L(r.title))}</h2>
-        <div class="meta"><span>⏱ ${r.minutes} ${esc(t("min"))}</span><span>👥 ${esc(t("serves", r.serves))}</span></div>
+        <div class="meta"><span>${CUISINES[r.cuisine].flag} ${esc(L(CUISINES[r.cuisine]))}</span><span>⏱ ${r.minutes} ${esc(t("min"))}</span><span>👥 ${esc(t("serves", r.serves))}</span></div>
         <div class="tags">${tags}</div>
         <p class="blurb">${esc(L(r.blurb))}</p>
         <div class="why"><b>💚 ${esc(t("why"))}</b>${esc(L(r.why))}</div>

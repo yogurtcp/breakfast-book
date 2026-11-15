@@ -1,5 +1,5 @@
 // Breakfast Book service worker: offline app shell + cached recipe photos.
-const VERSION = "v1";
+const VERSION = "v2";
 const SHELL = `bb-shell-${VERSION}`;
 const IMAGES = "bb-img-v1";
 const SHELL_FILES = [
@@ -49,18 +49,19 @@ self.addEventListener("fetch", (e) => {
 
   if (url.origin !== self.location.origin) return;
 
-  // App shell: serve from cache, refresh in the background.
+  // App shell: network first (so updates show up right away), cache as the offline fallback.
   e.respondWith(
     caches.open(SHELL).then(async (cache) => {
-      const hit = await cache.match(req, { ignoreSearch: true });
-      const net = fetch(req)
-        .then((res) => { if (res.ok) cache.put(req, res.clone()); return res; })
-        .catch(() => null);
-      if (hit) return hit;
-      const res = await net;
-      if (res) return res;
-      if (req.mode === "navigate") return cache.match("index.html");
-      return Response.error();
+      try {
+        const res = await fetch(req);
+        if (res.ok) cache.put(req, res.clone());
+        return res;
+      } catch (_) {
+        const hit = await cache.match(req, { ignoreSearch: true });
+        if (hit) return hit;
+        if (req.mode === "navigate") return cache.match("index.html");
+        return Response.error();
+      }
     })
   );
 });
