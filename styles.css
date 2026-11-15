@@ -74,6 +74,7 @@ main { padding: 16px; max-width: 980px; margin: 0 auto; outline: none; }
 .thumb { position: relative; aspect-ratio: 16 / 10; background: var(--olive-soft); overflow: hidden; }
 .thumb img { width: 100%; height: 100%; object-fit: cover; }
 .thumb .fallback { position: absolute; inset: 0; display: grid; place-items: center; font-size: 3rem; }
+.thumb img + .fallback, .hero img + .fallback { display: none; }
 .pill {
   position: absolute; top: 10px; inset-inline-start: 10px;
   background: var(--card); color: var(--ink); border-radius: 999px; padding: 4px 10px;
