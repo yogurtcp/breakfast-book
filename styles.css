@@ -34,7 +34,7 @@ a { color: var(--olive); }
 
 /* Top bar */
 .topbar {
-  position: sticky; top: 0; z-index: 20;
+  position: sticky; top: 0; z-index: 55; /* above the recipe sheet, so the language button works while a recipe is open */
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
   padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px;
   background: color-mix(in srgb, var(--bg) 88%, transparent);
@@ -150,11 +150,11 @@ main { padding: 16px; max-width: 980px; margin: 0 auto; outline: none; }
 .sheet { position: fixed; inset: 0; z-index: 50; }
 .sheet-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.4); animation: fade .2s; }
 .sheet-panel {
-  position: absolute; inset-inline: 0; bottom: 0; max-height: 94vh; overflow-y: auto;
+  position: absolute; inset-inline: 0; bottom: 0; max-height: calc(100vh - 66px - env(safe-area-inset-top, 0px)); overflow-y: auto;
   background: var(--bg); border-radius: 22px 22px 0 0; padding-bottom: calc(24px + var(--safe-b));
   animation: up .25s ease-out; max-width: 760px; margin: 0 auto; overscroll-behavior: contain;
 }
-@media (min-width: 800px) { .sheet-panel { bottom: 3vh; border-radius: 22px; max-height: 94vh; } }
+@media (min-width: 800px) { .sheet-panel { bottom: 2vh; border-radius: 22px; max-height: calc(98vh - 70px); } }
 .sheet-close { position: sticky; top: 10px; float: inline-end; margin: 10px 10px -46px 0; z-index: 2; width: 36px; height: 36px; border-radius: 99px; border: 0; background: rgba(0,0,0,.55); color: #fff; font-size: 1rem; }
 [dir="rtl"] .sheet-close { margin: 10px 0 -46px 10px; }
 @keyframes up { from { transform: translateY(40px); opacity: 0; } }
@@ -223,3 +223,11 @@ main { padding: 16px; max-width: 980px; margin: 0 auto; outline: none; }
   .tag.adv { background: #3a2e14; color: #f0c46c; }
   .sp-note { background: #3a2e14; color: #f3dca8; }
 }
+
+/* Meal picker */
+.meals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: var(--line); padding: 4px; border-radius: 14px; margin: 0 0 14px; }
+.meal { border: 0; background: transparent; border-radius: 10px; padding: 9px 4px; font-weight: 600; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 6px; }
+.meal.on { background: var(--card); color: var(--ink); box-shadow: var(--shadow); }
+
+/* Ingredient alternatives */
+.ing-toggle .alt { display: block; color: var(--olive); font-size: .8rem; margin-top: 2px; line-height: 1.35; }

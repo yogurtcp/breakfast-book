@@ -8,6 +8,9 @@
       appTitle: "Breakfast Book",
       tabRecipes: "Recipes", tabPantry: "At home", tabShopping: "Shopping",
       recipesTitle: "Healthy breakfasts",
+      mealBreakfast: "Breakfast", mealLunch: "Lunch", mealDinner: "Dinner",
+      title_breakfast: "Healthy breakfasts", title_lunch: "Healthy lunches", title_dinner: "Healthy dinners",
+      orUse: "or use:",
       recipesHintEmpty: "Tick what you have under “At home” and recipes will sort by what you can make right now.",
       recipesHint: (n) => `Sorted by what you can make with the ${n} items you have at home.`,
       all: "All", canMake: "Can make now", favorites: "Favorites",
@@ -16,6 +19,7 @@
       favLabel: "Favorite", everyday: "🛒 Regular supermarket",
       specialLbl: "specialty shop",
       advancedNote: (list) => `Hard to find in a regular Israeli supermarket: ${list}. Try an Asian grocer, a health-food store, or order online.`,
+      hasSwap: "There's a supermarket swap listed under the ingredients.",
       optionalNote: (list) => `${list} may be hard to find, but it's optional, so you can skip it.`,
       ready: "Ready to cook", haveOf: (a, b) => `${a}/${b} at home`,
       missingLbl: "Missing:", nothingMissing: "You have everything ✓",
@@ -41,7 +45,7 @@
       movedN: (n) => `Moved ${n} to “At home”`,
       copied: "List copied", confirmClear: "Clear the whole shopping list?",
       install: "Install", aboutTitle: "About",
-      aboutBody: "Healthy breakfasts from the Mediterranean, Japan, China, Korea, India, Turkey and Vietnam. They share the eating pattern that keeps coming out on top in nutrition research: vegetables, whole grains, legumes and soy, fish, eggs, nuts and plain dairy, with little added sugar. It's general information, not medical advice.",
+      aboutBody: "Healthy breakfasts, lunches and dinners from the Mediterranean, Japan, China, Korea, India, Turkey and Vietnam. They share the eating pattern that keeps coming out on top in nutrition research: vegetables, whole grains, legumes and soy, fish, eggs, nuts and plain dairy, with little added sugar. It's general information, not medical advice.",
       installHow: "Install it: on Android/Chrome, use the Install button or the menu → “Install app”. On iPhone, open in Safari → Share → “Add to Home Screen”.",
       offline: "It works offline once it's opened. Your pantry and list are saved on this device only.",
       credits: "Photo credits (Wikimedia Commons)",
@@ -50,6 +54,9 @@
       appTitle: "ספר ארוחות בוקר",
       tabRecipes: "מתכונים", tabPantry: "יש בבית", tabShopping: "קניות",
       recipesTitle: "ארוחות בוקר בריאות",
+      mealBreakfast: "בוקר", mealLunch: "צהריים", mealDinner: "ערב",
+      title_breakfast: "ארוחות בוקר בריאות", title_lunch: "ארוחות צהריים בריאות", title_dinner: "ארוחות ערב בריאות",
+      orUse: "או:",
       recipesHintEmpty: "סמנו ב״יש בבית״ מה יש לכם, והמתכונים יסודרו לפי מה שאפשר להכין עכשיו.",
       recipesHint: (n) => `ממוין לפי מה שאפשר להכין עם ${n} הפריטים שיש בבית.`,
       all: "הכול", canMake: "אפשר להכין עכשיו", favorites: "מועדפים",
@@ -58,6 +65,7 @@
       favLabel: "מועדף", everyday: "🛒 מהסופר הרגיל",
       specialLbl: "חנות מיוחדת",
       advancedNote: (list) => `קשה למצוא בסופר רגיל בישראל: ${list}. נסו חנות אסייתית, חנות טבע או הזמנה אונליין.`,
+      hasSwap: "ברשימת המצרכים יש תחליף מהסופר.",
       optionalNote: (list) => `${list} עלול להיות קשה להשגה, אבל הוא לא חובה, אז אפשר לוותר.`,
       ready: "מוכן לבישול", haveOf: (a, b) => `${a}/${b} יש בבית`,
       missingLbl: "חסר:", nothingMissing: "יש הכול ✓",
@@ -83,7 +91,7 @@
       movedN: (n) => `${n} הועברו ל״יש בבית״`,
       copied: "הרשימה הועתקה", confirmClear: "לנקות את כל רשימת הקניות?",
       install: "התקנה", aboutTitle: "אודות",
-      aboutBody: "ארוחות בוקר בריאות מהים התיכון, יפן, סין, קוריאה, הודו, טורקיה וויטנאם. המשותף להן הוא דפוס התזונה שחוזר שוב ושוב כמוביל במחקרי תזונה: ירקות, דגנים מלאים, קטניות וסויה, דגים, ביצים, אגוזים ומוצרי חלב טבעיים, עם מעט סוכר מוסף. זה מידע כללי, לא ייעוץ רפואי.",
+      aboutBody: "ארוחות בוקר, צהריים וערב בריאות מהים התיכון, יפן, סין, קוריאה, הודו, טורקיה וויטנאם. המשותף להן הוא דפוס התזונה שחוזר שוב ושוב כמוביל במחקרי תזונה: ירקות, דגנים מלאים, קטניות וסויה, דגים, ביצים, אגוזים ומוצרי חלב טבעיים, עם מעט סוכר מוסף. זה מידע כללי, לא ייעוץ רפואי.",
       installHow: "התקנה: באנדרואיד/כרום, לחצו על כפתור ההתקנה או בתפריט ← ״התקנת אפליקציה״. באייפון, פתחו בספארי ← שיתוף ← ״הוסף למסך הבית״.",
       offline: "אחרי פתיחה ראשונה זה עובד גם בלי אינטרנט. מה שיש בבית ורשימת הקניות נשמרים רק במכשיר הזה.",
       credits: "קרדיט לתמונות (ויקישיתוף)",
@@ -100,15 +108,15 @@
   // ---------- State ----------
   const KEY = "breakfast-book:v1";
   const defaultLang = (navigator.language || "en").toLowerCase().startsWith("he") ? "he" : "en";
-  let state = { lang: defaultLang, tab: "recipes", filter: "all", pantry: [], shopping: [], favs: [] };
+  let state = { lang: defaultLang, tab: "recipes", filter: "all", meal: "breakfast", pantry: [], shopping: [], favs: [] };
   try {
     const saved = JSON.parse(localStorage.getItem(KEY) || "null");
     if (saved) state = { ...state, ...saved, filter: "all" };
   } catch (_) {}
   const save = () => {
     try {
-      const { lang, tab, pantry, shopping, favs } = state;
-      localStorage.setItem(KEY, JSON.stringify({ lang, tab, pantry, shopping, favs }));
+      const { lang, tab, meal, pantry, shopping, favs } = state;
+      localStorage.setItem(KEY, JSON.stringify({ lang, tab, meal, pantry, shopping, favs }));
     } catch (_) {}
   };
 
@@ -117,6 +125,8 @@
   const ingName = (id) => L(INGREDIENTS[id]);
   const has = (id) => state.pantry.includes(id);
   const isFav = (id) => state.favs.includes(id);
+  const MEALS = [["breakfast", "🌅", "mealBreakfast"], ["lunch", "☀️", "mealLunch"], ["dinner", "🌙", "mealDinner"]];
+  const inMeal = (r) => (r.meals || ["breakfast"]).includes(state.meal);
   const heartBtn = (id, cls) =>
     `<button class="${cls} ${isFav(id) ? "on" : ""}" data-fav="${id}" aria-pressed="${isFav(id)}" aria-label="${esc(t("favLabel"))}">${isFav(id) ? "♥" : "♡"}</button>`;
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -193,8 +203,12 @@
   }
 
   function renderRecipes() {
-    const filters = ["all", "fav", "canmake", "everyday", ...Object.keys(CUISINES).map((c) => "c:" + c), ...Object.keys(TAGS)];
-    let list = RECIPES.map((r, i) => ({ r, i, m: match(r) }));
+    const base = RECIPES.filter(inMeal);
+    const filters = ["all", "fav", "canmake", "everyday",
+      ...Object.keys(CUISINES).filter((c) => base.some((r) => r.cuisine === c)).map((c) => "c:" + c),
+      ...Object.keys(TAGS).filter((tg) => base.some((r) => r.tags.includes(tg)))];
+    if (!filters.includes(state.filter)) state.filter = "all";
+    let list = RECIPES.map((r, i) => ({ r, i, m: match(r) })).filter((x) => inMeal(x.r));
     if (state.filter === "fav") list = list.filter((x) => isFav(x.r.id));
     else if (state.filter === "canmake") list = list.filter((x) => x.m.missing.length === 0);
     else if (state.filter === "everyday") list = list.filter((x) => !x.r.tags.includes("advanced"));
@@ -231,8 +245,11 @@
         </div></article>`;
     }).join("");
 
+    const mealBar = MEALS.map(([k, icon, lbl]) =>
+      `<button class="meal ${state.meal === k ? "on" : ""}" data-meal="${k}" aria-pressed="${state.meal === k}"><span>${icon}</span>${esc(t(lbl))}</button>`).join("");
     view.innerHTML = `
-      <h2 class="section-title">${esc(t("recipesTitle"))}</h2>
+      <div class="meals" role="group">${mealBar}</div>
+      <h2 class="section-title">${esc(t("title_" + state.meal))}</h2>
       <p class="hint">${esc(state.pantry.length ? t("recipesHint", state.pantry.length) : t("recipesHintEmpty"))}</p>
       <div class="chips">${chips}</div>
       ${state.filter === "fav" && list.length > 1 ? `<div class="row-actions"><button class="btn" id="pick-one">${esc(t("pickForMe"))}</button></div>` : ""}
@@ -299,6 +316,7 @@
 
   // ---------- Recipe detail sheet ----------
   let openRecipeId = null;
+  let aboutOpen = false;
   function openSheet(html, push = true, hash = "") {
     $("#sheet-body").innerHTML = html;
     $("#sheet").hidden = false;
@@ -310,7 +328,7 @@
     if ($("#sheet").hidden) return;
     $("#sheet").hidden = true;
     document.body.style.overflow = "";
-    openRecipeId = null;
+    openRecipeId = null; aboutOpen = false;
     if (!fromPop && location.hash) history.back();
     render();
   }
@@ -323,14 +341,14 @@
       const cart = h ? "" : `<button class="cart-btn ${onList(id) ? "added" : ""}" data-cart="${id}" aria-label="Add to shopping list">${onList(id) ? "✓🛒" : "+🛒"}</button>`;
       return `<li><button class="ing-toggle ${h ? "have" : ""}" data-ing="${id}">
           <span class="dot">${h ? "✓" : ""}</span>
-          <span><b>${esc(ingName(id))}</b> <span class="q">· ${esc(q)}</span>${opt ? ` <span class="opt">(${esc(t("optional"))})</span>` : ""}${INGREDIENTS[id].special ? ` <span class="sp">🔎 ${esc(t("specialLbl"))}</span>` : ""}</span>
+          <span><b>${esc(ingName(id))}</b> <span class="q">· ${esc(q)}</span>${opt ? ` <span class="opt">(${esc(t("optional"))})</span>` : ""}${INGREDIENTS[id].special ? ` <span class="sp">🔎 ${esc(t("specialLbl"))}</span>` : ""}${INGREDIENTS[id].alt ? `<span class="alt">↔ ${esc(t("orUse"))} ${esc(L(INGREDIENTS[id].alt))}</span>` : ""}</span>
         </button>${cart}</li>`;
     }).join("");
     const steps = L(r.steps).map((s) => `<li>${esc(s)}</li>`).join("");
     const tags = r.tags.map((x) => `<span class="tag ${x === "advanced" ? "adv" : ""}">${esc(L(TAGS[x]))}</span>`).join("");
     const reqSp = specialReq(r), optSp = specialAny(r).filter((id) => !reqSp.includes(id));
     const spNote = reqSp.length
-      ? `<div class="sp-note">🔎 ${esc(t("advancedNote", reqSp.map(ingName).join(", ")))}</div>`
+      ? `<div class="sp-note">🔎 ${esc(t("advancedNote", reqSp.map(ingName).join(", ")))}${reqSp.some((id) => INGREDIENTS[id].alt && id !== "natto") ? " " + esc(t("hasSwap")) : ""}</div>`
       : optSp.length ? `<div class="sp-note soft">🔎 ${esc(t("optionalNote", optSp.map(ingName).join(", ")))}</div>` : "";
     const cta = m.missing.length
       ? `<button class="btn" id="add-missing">🛒 ${esc(t("addMissing", m.missing.length))}</button>`
@@ -355,7 +373,7 @@
   function openRecipe(id, push = true) {
     const r = RECIPES.find((x) => x.id === id);
     if (!r) return;
-    openRecipeId = id;
+    openRecipeId = id; aboutOpen = false;
     openSheet(recipeHtml(r), push, "r=" + id);
   }
   function refreshRecipe() {
@@ -366,6 +384,7 @@
   }
 
   function openAbout(push = true) {
+    openRecipeId = null; aboutOpen = true;
     const credits = RECIPES.map((r) =>
       `<li>${esc(L(r.title))}: <a href="${fileUrl(r.file)}" target="_blank" rel="noopener">${esc(r.author)}</a></li>`).join("");
     openSheet(`<div class="about">
@@ -391,6 +410,7 @@
     if (el.dataset.close !== undefined) return closeSheet();
     if (el.dataset.tab) { state.tab = el.dataset.tab; save(); render(); window.scrollTo(0, 0); return; }
     if (el.dataset.filter) { state.filter = el.dataset.filter; render(); return; }
+    if (el.dataset.meal) { state.meal = el.dataset.meal; save(); render(); return; }
     if (el.dataset.fav) {
       const id = el.dataset.fav, i = state.favs.indexOf(id);
       if (i >= 0) state.favs.splice(i, 1); else state.favs.push(id);
@@ -428,10 +448,15 @@
     if (el.dataset.remove) { state.shopping.splice(+el.dataset.remove, 1); save(); render(); return; }
 
     switch (el.id) {
-      case "lang-btn": state.lang = state.lang === "he" ? "en" : "he"; save(); render(); if (openRecipeId) refreshRecipe(); break;
+      case "lang-btn": {
+        state.lang = state.lang === "he" ? "en" : "he"; save(); render();
+        if (openRecipeId) refreshRecipe();
+        else if (aboutOpen) { const p = $(".sheet-panel"), top = p.scrollTop; openAbout(false); p.scrollTop = top; }
+        break;
+      }
       case "about-btn": openAbout(); break;
       case "pick-one": {
-        const favs = RECIPES.filter((r) => isFav(r.id));
+        const favs = RECIPES.filter((r) => isFav(r.id) && inMeal(r));
         const ready = favs.filter((r) => match(r).missing.length === 0);
         const pool = state.pantry.length && ready.length ? ready : favs;
         if (pool.length) openRecipe(pool[Math.floor(Math.random() * pool.length)].id);
