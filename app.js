@@ -26,6 +26,9 @@
       min: "min", serves: (n) => `serves ${n}`,
       why: "Why it's healthy", ingredients: "Ingredients", steps: "Steps",
       tapToToggle: "tap to mark what you have",
+      servingsLbl: "Servings", iHave: "I have", reset: "Reset",
+      thatsPortions: (n) => `That makes about ${n} portions.`,
+      stepsNote: (n, f) => `Amounts written in the steps are for ${n} servings. Multiply them by ${f}.`,
       optional: "optional",
       addMissing: (n) => `Add ${n} missing to shopping list`,
       allAtHome: "You have everything. Enjoy! 🍳",
@@ -72,6 +75,9 @@
       min: "דק׳", serves: (n) => `${n} מנות`,
       why: "למה זה בריא", ingredients: "מצרכים", steps: "אופן ההכנה",
       tapToToggle: "לחצו לסימון מה יש",
+      servingsLbl: "מנות", iHave: "יש לי", reset: "איפוס",
+      thatsPortions: (n) => `זה מספיק לבערך ${n} מנות.`,
+      stepsNote: (n, f) => `הכמויות שכתובות בשלבי ההכנה הן ל-${n} מנות. הכפילו אותן ב-${f}.`,
       optional: "לא חובה",
       addMissing: (n) => `הוספת ${n} חסרים לרשימת הקניות`,
       allAtHome: "יש הכול. בתיאבון! 🍳",
@@ -333,17 +339,96 @@
     render();
   }
 
-  function recipeHtml(r) {
-    const m = match(r);
-    const ings = r.ingredients.map(([id, qen, qhe, opt]) => {
+  // ---------- Scaling ("I have 600 g chicken" → scale everything) ----------
+  const FRAC = { "½": 0.5, "¼": 0.25, "¾": 0.75, "⅓": 1 / 3, "⅔": 2 / 3 };
+  const NUM = "(?:\\d+(?:\\.\\d+)?(?:\\s?[½¼¾⅓⅔])?|[½¼¾⅓⅔])";
+  const numRe = new RegExp(NUM + "(?:\\s?[–-]\\s?" + NUM + ")?", "g");
+  const leadRe = new RegExp("^\\s*(" + NUM + ")");
+  const NOSCALE = /to taste|to serve|for salad|לפי הטעם|להגשה|לסלט/;
+  const parseNum = (s) => {
+    const m = String(s).trim().match(/^(\d+(?:\.\d+)?)?\s?([½¼¾⅓⅔])?$/);
+    return m && (m[1] || m[2]) ? (m[1] ? parseFloat(m[1]) : 0) + (m[2] ? FRAC[m[2]] : 0) : NaN;
+  };
+  const leadNum = (s) => { const m = String(s).match(leadRe); return m ? parseNum(m[1]) : NaN; };
+  function fmtNum(v) {
+    if (v >= 50) return String(Math.round(v / 10) * 10);
+    if (v >= 10) return String(Math.round(v));
+    const q = Math.max(0.25, Math.round(v * 4) / 4), i = Math.floor(q), f = q - i;
+    return (i ? String(i) : "") + (f === 0.25 ? "¼" : f === 0.5 ? "½" : f === 0.75 ? "¾" : "");
+  }
+  const fmtServ = (v) => { const q = Math.round(v * 2) / 2; return Number.isInteger(q) ? String(q) : (Math.floor(q) || "") + "½"; };
+  // Whole items (eggs, garlic cloves, fillets...) are rounded to whole numbers when scaled.
+  const isCountable = (qen) => {
+    const rest = String(qen).replace(leadRe, "").trim().split(/[(,]/)[0].trim();
+    return rest === "" || /^(cloves?|slices?|stalks?|pieces?|fillets?|packs?|sheets?|large|ripe)$/.test(rest);
+  };
+  function scaleQty(str, f, enBase, countable) {
+    if (Math.abs(f - 1) < 1e-9 || NOSCALE.test(str)) return str;
+    // \u2066…\u2069 isolates numbers as left-to-right so "5¼" doesn't flip to "¼5" in Hebrew.
+    const iso = (s) => "\u2066" + s + "\u2069";
+    const fmt = (v) => iso(countable ? String(Math.max(1, Math.round(v))) : fmtNum(v));
+    let first = true;
+    const body = str.replace(numRe, (tok) => {
+      const out = tok.split(/\s?[–-]\s?/).map((p) => (first ? fmt : (v) => iso(fmtNum(v)))(parseNum(p) * f)).join("–");
+      first = false; return out;
+    });
+    if (!isNaN(leadNum(str))) return body;
+    return (isNaN(enBase) ? iso("×" + fmtNum(f)) : fmt(enBase * f)) + " " + body;
+  }
+  const scalable = (r) => r.ingredients.filter(([, qen]) => !isNaN(leadNum(qen)) && !NOSCALE.test(qen));
+  function defaultScaleIng(r) {
+    const order = ["protein", "dairy", "grains", "produce", "pantry", "spices"];
+    const el = scalable(r);
+    for (const c of order) { const hit = el.find(([id, , , opt]) => !opt && INGREDIENTS[id].cat === c); if (hit) return hit[0]; }
+    return el[0] && el[0][0];
+  }
+  function unitOf(row) {
+    const [id, qen, qhe] = row;
+    const strip = (s) => String(s).replace(leadRe, "").split(/[(,]/)[0].trim();
+    const u = state.lang === "he" ? strip(qhe) : strip(qen);
+    return u || ingName(id);
+  }
+  let scale = 1, scaleIng = null;
+
+  function ingsHtml(r) {
+    return r.ingredients.map(([id, qen, qhe, opt]) => {
       const h = has(id);
-      const q = state.lang === "he" ? qhe : qen;
+      const q = scaleQty(state.lang === "he" ? qhe : qen, scale, leadNum(qen), isCountable(qen));
       const cart = h ? "" : `<button class="cart-btn ${onList(id) ? "added" : ""}" data-cart="${id}" aria-label="Add to shopping list">${onList(id) ? "✓🛒" : "+🛒"}</button>`;
       return `<li><button class="ing-toggle ${h ? "have" : ""}" data-ing="${id}">
           <span class="dot">${h ? "✓" : ""}</span>
-          <span><b>${esc(ingName(id))}</b> <span class="q">· ${esc(q)}</span>${opt ? ` <span class="opt">(${esc(t("optional"))})</span>` : ""}${INGREDIENTS[id].special ? ` <span class="sp">🔎 ${esc(t("specialLbl"))}</span>` : ""}${INGREDIENTS[id].alt ? `<span class="alt">↔ ${esc(t("orUse"))} ${esc(L(INGREDIENTS[id].alt))}</span>` : ""}</span>
+          <span><b>${esc(ingName(id))}</b> <span class="q ${scale !== 1 ? "scaled" : ""}">· ${esc(q)}</span>${opt ? ` <span class="opt">(${esc(t("optional"))})</span>` : ""}${INGREDIENTS[id].special ? ` <span class="sp">🔎 ${esc(t("specialLbl"))}</span>` : ""}${INGREDIENTS[id].alt ? `<span class="alt">↔ ${esc(t("orUse"))} ${esc(L(INGREDIENTS[id].alt))}</span>` : ""}</span>
         </button>${cart}</li>`;
     }).join("");
+  }
+  function scaleResultHtml(r) {
+    return scale !== 1
+      ? `<div class="sc-res">${esc(t("thatsPortions", fmtServ(r.serves * scale)))} <button class="link" id="sc-reset">${esc(t("reset"))}</button></div>`
+      : "";
+  }
+  const stepsNoteHtml = (r) => scale !== 1
+    ? `<p class="steps-note">${esc(t("stepsNote", r.serves, Math.round(scale * 100) / 100))}</p>` : "";
+  function scalerHtml(r) {
+    const el = scalable(r);
+    if (!el.length) return "";
+    if (!scaleIng || !el.some(([id]) => id === scaleIng)) scaleIng = defaultScaleIng(r);
+    const row = r.ingredients.find(([id]) => id === scaleIng);
+    const base = leadNum(row[1]);
+    const opts = el.map(([id]) => `<option value="${id}" ${id === scaleIng ? "selected" : ""}>${esc(ingName(id))}</option>`).join("");
+    return `<div class="scaler">
+        <div class="sc-row"><span class="sc-lbl">👥 ${esc(t("servingsLbl"))}</span>
+          <div class="stepper"><button data-serv="-1" aria-label="−">−</button><b id="sc-serv">${fmtServ(r.serves * scale)}</b><button data-serv="1" aria-label="+">+</button></div></div>
+        <div class="sc-row"><span class="sc-lbl">⚖️ ${esc(t("iHave"))}</span>
+          <input id="sc-amt" type="number" inputmode="decimal" min="0" step="any" placeholder="${fmtNum(base * scale)}" aria-label="${esc(t("iHave"))}">
+          <span class="sc-unit">${esc(unitOf(row))}</span>
+          <select id="sc-ing" aria-label="${esc(t("ingredients"))}">${opts}</select></div>
+        <div id="sc-result">${scaleResultHtml(r)}</div>
+      </div>`;
+  }
+
+  function recipeHtml(r) {
+    const m = match(r);
+    const ings = ingsHtml(r);
     const steps = L(r.steps).map((s) => `<li>${esc(s)}</li>`).join("");
     const tags = r.tags.map((x) => `<span class="tag ${x === "advanced" ? "adv" : ""}">${esc(L(TAGS[x]))}</span>`).join("");
     const reqSp = specialReq(r), optSp = specialAny(r).filter((id) => !reqSp.includes(id));
@@ -363,8 +448,10 @@
         <div class="why"><b>💚 ${esc(t("why"))}</b>${esc(L(r.why))}</div>
         ${spNote}
         <h3>${esc(t("ingredients"))} <small>${esc(t("tapToToggle"))}</small></h3>
-        <ul class="ings">${ings}</ul>
+        ${scalerHtml(r)}
+        <ul class="ings" id="ings">${ings}</ul>
         <h3>${esc(t("steps"))}</h3>
+        <div id="steps-note">${stepsNoteHtml(r)}</div>
         <ol class="steps">${steps}</ol>
         <p class="credit">${esc(t("photo"))}: <a href="${fileUrl(r.file)}" target="_blank" rel="noopener">${esc(r.author)}</a> ${esc(t("via"))}${r.photoNote ? ` (${esc(L(r.photoNote))})` : ""}</p>
         <div class="sticky-cta">${cta}</div>
@@ -373,7 +460,7 @@
   function openRecipe(id, push = true) {
     const r = RECIPES.find((x) => x.id === id);
     if (!r) return;
-    openRecipeId = id; aboutOpen = false;
+    openRecipeId = id; aboutOpen = false; scale = 1; scaleIng = null;
     openSheet(recipeHtml(r), push, "r=" + id);
   }
   function refreshRecipe() {
@@ -411,6 +498,12 @@
     if (el.dataset.tab) { state.tab = el.dataset.tab; save(); render(); window.scrollTo(0, 0); return; }
     if (el.dataset.filter) { state.filter = el.dataset.filter; render(); return; }
     if (el.dataset.meal) { state.meal = el.dataset.meal; save(); render(); return; }
+    if (el.dataset.serv && openRecipeId) {
+      const r = RECIPES.find((x) => x.id === openRecipeId);
+      const n = Math.max(1, Math.round(r.serves * scale) + Number(el.dataset.serv));
+      scale = n / r.serves; refreshRecipe(); return;
+    }
+    if (el.id === "sc-reset") { scale = 1; refreshRecipe(); return; }
     if (el.dataset.fav) {
       const id = el.dataset.fav, i = state.favs.indexOf(id);
       if (i >= 0) state.favs.splice(i, 1); else state.favs.push(id);
@@ -477,6 +570,7 @@
   });
 
   document.addEventListener("change", (e) => {
+    if (e.target.id === "sc-ing") { scaleIng = e.target.value; refreshRecipe(); return; }
     if (e.target.dataset.shop !== undefined) {
       const s = state.shopping[+e.target.dataset.shop];
       s.done = e.target.checked; save(); render();
@@ -484,6 +578,17 @@
   });
 
   document.addEventListener("input", (e) => {
+    if (e.target.id === "sc-amt" && openRecipeId) {
+      const r = RECIPES.find((x) => x.id === openRecipeId);
+      const base = leadNum(r.ingredients.find(([id]) => id === scaleIng)[1]);
+      const v = parseFloat(String(e.target.value).replace(",", "."));
+      scale = v > 0 && base > 0 ? v / base : 1;
+      $("#ings").innerHTML = ingsHtml(r);
+      $("#sc-serv").textContent = fmtServ(r.serves * scale);
+      $("#sc-result").innerHTML = scaleResultHtml(r);
+      $("#steps-note").innerHTML = stepsNoteHtml(r);
+      return;
+    }
     if (e.target.id === "pantry-search") {
       pantryQuery = e.target.value;
       const pos = e.target.selectionStart;

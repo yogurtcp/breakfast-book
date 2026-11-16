@@ -231,3 +231,19 @@ main { padding: 16px; max-width: 980px; margin: 0 auto; outline: none; }
 
 /* Ingredient alternatives */
 .ing-toggle .alt { display: block; color: var(--olive); font-size: .8rem; margin-top: 2px; line-height: 1.35; }
+
+/* Scaling panel */
+.scaler { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px 14px; margin: 0 0 12px; display: flex; flex-direction: column; gap: 10px; }
+.sc-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sc-lbl { font-weight: 600; min-width: 84px; }
+.stepper { display: flex; align-items: center; gap: 12px; }
+.stepper button { width: 34px; height: 34px; border-radius: 99px; border: 1px solid var(--line); background: var(--bg); font-size: 1.15rem; line-height: 1; }
+.stepper b { min-width: 28px; text-align: center; font-size: 1.05rem; }
+#sc-ing, #sc-amt { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; }
+#sc-ing { flex: 1 1 170px; min-width: 0; }
+#sc-amt { width: 84px; }
+.sc-unit { color: var(--muted); }
+.sc-res { color: var(--olive); font-weight: 600; }
+.link { border: 0; background: none; color: var(--muted); text-decoration: underline; padding: 0 4px; font-weight: 500; }
+.steps-note { color: var(--muted); font-size: .88rem; margin: -4px 0 10px; }
+.ings .q.scaled { color: var(--olive); font-weight: 600; }

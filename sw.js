@@ -1,5 +1,5 @@
 // Breakfast Book service worker: offline app shell + cached recipe photos.
-const VERSION = "v8";
+const VERSION = "v9";
 const SHELL = `bb-shell-${VERSION}`;
 const IMAGES = "bb-img-v1";
 const SHELL_FILES = [
