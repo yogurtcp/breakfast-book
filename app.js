@@ -27,7 +27,10 @@
       why: "Why it's healthy", ingredients: "Ingredients", steps: "Steps",
       tapToToggle: "tap to mark what you have",
       servingsLbl: "Servings", iHave: "I have", reset: "Reset",
-      thatsPortions: (n) => `That makes about ${n} portions.`,
+      thatsPortions: (n, k) => `That makes about ${n} portions (≈ ${k} kcal total).`,
+      kcal: "kcal",
+      kcalLine: (p, tot, n) => `≈ ${p} kcal per serving · ${tot} kcal total (${n} servings)`,
+      kcalNote: "Calories are estimates from standard values for each ingredient (raw or dry weight). Optional ingredients aren't included.",
       stepsNote: (n, f) => `Amounts written in the steps are for ${n} servings. Multiply them by ${f}.`,
       optional: "optional",
       addMissing: (n) => `Add ${n} missing to shopping list`,
@@ -76,7 +79,10 @@
       why: "למה זה בריא", ingredients: "מצרכים", steps: "אופן ההכנה",
       tapToToggle: "לחצו לסימון מה יש",
       servingsLbl: "מנות", iHave: "יש לי", reset: "איפוס",
-      thatsPortions: (n) => `זה מספיק לבערך ${n} מנות.`,
+      thatsPortions: (n, k) => `זה מספיק לבערך ${n} מנות (≈ ${k} קק״ל בסך הכול).`,
+      kcal: "קק״ל",
+      kcalLine: (p, tot, n) => `≈ ${p} קק״ל למנה · ${tot} קק״ל בסך הכול (${n} מנות)`,
+      kcalNote: "הקלוריות הן הערכה לפי ערכים תזונתיים סטנדרטיים לכל מצרך (במשקל גולמי או יבש). מצרכים שאינם חובה לא נכללים.",
       stepsNote: (n, f) => `הכמויות שכתובות בשלבי ההכנה הן ל-${n} מנות. הכפילו אותן ב-${f}.`,
       optional: "לא חובה",
       addMissing: (n) => `הוספת ${n} חסרים לרשימת הקניות`,
@@ -246,7 +252,7 @@
         <div class="thumb">${imgTag(r, 640)}${pill}${heartBtn(r.id, "heart")}</div>
         <div class="card-body">
           <h3>${esc(L(r.title))}</h3>
-          <div class="meta"><span>${CUISINES[r.cuisine].flag} ${esc(L(CUISINES[r.cuisine]))}</span><span>⏱ ${r.minutes} ${esc(t("min"))}</span><span>👥 ${esc(t("serves", r.serves))}</span>${r.tags.includes("advanced") ? `<span class="adv">${esc(L(TAGS.advanced))}</span>` : ""}</div>
+          <div class="meta"><span>${CUISINES[r.cuisine].flag} ${esc(L(CUISINES[r.cuisine]))}</span><span>⏱ ${r.minutes} ${esc(t("min"))}</span><span>👥 ${esc(t("serves", r.serves))}</span><span>🔥 ${round10(KCAL[r.id].perServing)} ${esc(t("kcal"))}</span>${r.tags.includes("advanced") ? `<span class="adv">${esc(L(TAGS.advanced))}</span>` : ""}</div>
           ${miss}
         </div></article>`;
     }).join("");
@@ -356,6 +362,12 @@
     const q = Math.max(0.25, Math.round(v * 4) / 4), i = Math.floor(q), f = q - i;
     return (i ? String(i) : "") + (f === 0.25 ? "¼" : f === 0.5 ? "½" : f === 0.75 ? "¾" : "");
   }
+  const KCAL = Object.fromEntries(RECIPES.map((r) => [r.id, recipeKcal(r)]));
+  const round10 = (v) => (Math.round(v / 10) * 10).toLocaleString("en-US");
+  const kcalLineHtml = (r) => {
+    const k = KCAL[r.id];
+    return `🔥 ${esc(t("kcalLine", round10(k.perServing), round10(k.perServing * r.serves * scale), fmtServ(r.serves * scale)))}`;
+  };
   const fmtServ = (v) => { const q = Math.round(v * 2) / 2; return Number.isInteger(q) ? String(q) : (Math.floor(q) || "") + "½"; };
   // Whole items (eggs, garlic cloves, fillets...) are rounded to whole numbers when scaled.
   const isCountable = (qen) => {
@@ -403,7 +415,7 @@
   }
   function scaleResultHtml(r) {
     return scale !== 1
-      ? `<div class="sc-res">${esc(t("thatsPortions", fmtServ(r.serves * scale)))} <button class="link" id="sc-reset">${esc(t("reset"))}</button></div>`
+      ? `<div class="sc-res">${esc(t("thatsPortions", fmtServ(r.serves * scale), round10(KCAL[r.id].perServing * r.serves * scale)))} <button class="link" id="sc-reset">${esc(t("reset"))}</button></div>`
       : "";
   }
   const stepsNoteHtml = (r) => scale !== 1
@@ -443,6 +455,7 @@
       <div class="detail">
         <div class="title-row"><h2>${esc(L(r.title))}</h2>${heartBtn(r.id, "heart-lg")}</div>
         <div class="meta"><span>${CUISINES[r.cuisine].flag} ${esc(L(CUISINES[r.cuisine]))}</span><span>⏱ ${r.minutes} ${esc(t("min"))}</span><span>👥 ${esc(t("serves", r.serves))}</span></div>
+        <div class="kcal-line" id="kcal-line">${kcalLineHtml(r)}</div>
         <div class="tags">${tags}</div>
         <p class="blurb">${esc(L(r.blurb))}</p>
         <div class="why"><b>💚 ${esc(t("why"))}</b>${esc(L(r.why))}</div>
@@ -450,6 +463,7 @@
         <h3>${esc(t("ingredients"))} <small>${esc(t("tapToToggle"))}</small></h3>
         ${scalerHtml(r)}
         <ul class="ings" id="ings">${ings}</ul>
+        <p class="kcal-note">${esc(t("kcalNote"))}</p>
         <h3>${esc(t("steps"))}</h3>
         <div id="steps-note">${stepsNoteHtml(r)}</div>
         <ol class="steps">${steps}</ol>
@@ -586,6 +600,7 @@
       $("#ings").innerHTML = ingsHtml(r);
       $("#sc-serv").textContent = fmtServ(r.serves * scale);
       $("#sc-result").innerHTML = scaleResultHtml(r);
+      $("#kcal-line").innerHTML = kcalLineHtml(r);
       $("#steps-note").innerHTML = stepsNoteHtml(r);
       return;
     }

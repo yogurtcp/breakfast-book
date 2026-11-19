@@ -247,3 +247,7 @@ main { padding: 16px; max-width: 980px; margin: 0 auto; outline: none; }
 .link { border: 0; background: none; color: var(--muted); text-decoration: underline; padding: 0 4px; font-weight: 500; }
 .steps-note { color: var(--muted); font-size: .88rem; margin: -4px 0 10px; }
 .ings .q.scaled { color: var(--olive); font-weight: 600; }
+
+/* Calories */
+.kcal-line { margin: 6px 0 2px; font-weight: 600; color: var(--ink); font-size: .92rem; }
+.kcal-note { color: var(--muted); font-size: .8rem; margin: 8px 2px 0; line-height: 1.4; }

@@ -1642,3 +1642,146 @@ const TAGS = {
   eggfree:    { en: "Egg-free",      he: "בלי ביצים" },
   advanced:   { en: "🔎 Advanced",    he: "🔎 מתקדם" },
 };
+
+// Approximate nutrition for calorie estimates: kcal per 100 g (raw / dry weight as bought),
+// plus typical weights in grams for kitchen units. Sources: standard food-composition values
+// (USDA-style averages); treat results as estimates.
+const NUTRI = {
+  eggs:            { kcal: 143, each: 50 },
+  greek_yogurt:    { kcal: 100, tbsp: 18 },
+  milk:            { kcal: 50 },
+  feta:            { kcal: 265 },
+  labneh:          { kcal: 160 },
+  tomatoes:        { kcal: 18, each: 120 },
+  cherry_tomatoes: { kcal: 18, handful: 80 },
+  cucumbers:       { kcal: 15, each: 100 },
+  onion:           { kcal: 40, each: 150 },
+  red_onion:       { kcal: 40, each: 150 },
+  green_onion:     { kcal: 32, each: 15 },
+  leek:            { kcal: 61, each: 150 },
+  garlic:          { kcal: 149, each: 4 },
+  bell_pepper:     { kcal: 31, each: 150 },
+  green_pepper:    { kcal: 20, each: 100 },
+  spinach:         { kcal: 23, handful: 30 },
+  zucchini:        { kcal: 17, each: 200 },
+  mushrooms:       { kcal: 22 },
+  avocado:         { kcal: 160, each: 150 },
+  lemon:           { kcal: 25, each: 50 },
+  lime:            { kcal: 30, each: 40 },
+  apple:           { kcal: 52, each: 180 },
+  berries:         { kcal: 50 },
+  parsley:         { kcal: 36, handful: 20 },
+  cilantro:        { kcal: 23, handful: 15 },
+  dill:            { kcal: 43, handful: 10 },
+  mint:            { kcal: 44, handful: 10 },
+  ginger:          { kcal: 80, thumb: 15 },
+  green_chili:     { kcal: 40, each: 15 },
+  bean_sprouts:    { kcal: 30, handful: 50 },
+  carrots:         { kcal: 41, each: 80 },
+  broccoli:        { kcal: 34, head: 350 },
+  potatoes:        { kcal: 77 },
+  green_beans:     { kcal: 31 },
+  lettuce:         { kcal: 15, head: 300 },
+  wg_bread:        { kcal: 250, each: 35 },
+  wg_pita:         { kcal: 260, each: 65 },
+  rolled_oats:     { kcal: 379 },
+  rice:            { kcal: 360, bowl: 55 },
+  millet:          { kcal: 378 },
+  chickpea_flour:  { kcal: 387 },
+  rice_noodles:    { kcal: 364 },
+  bulgur:          { kcal: 342 },
+  salmon:          { kcal: 208 },
+  tofu:            { kcal: 90 },
+  natto:           { kcal: 211, each: 45 },
+  chicken_breast:  { kcal: 120 },
+  chicken_thighs:  { kcal: 135 },
+  ground_beef:     { kcal: 150 },
+  tuna:            { kcal: 130, can: 112 },
+  olive_oil:       { kcal: 884, tbsp: 13.5, tsp: 4.5 },
+  crushed_tomatoes:{ kcal: 32 },
+  fava_beans:      { kcal: 100 },
+  tahini:          { kcal: 595, tbsp: 15 },
+  hummus:          { kcal: 250, tbsp: 15 },
+  olives:          { kcal: 115, handful: 30 },
+  walnuts:         { kcal: 654 },
+  chia:            { kcal: 486, tbsp: 12 },
+  flaxseed:        { kcal: 534, tbsp: 7 },
+  honey:           { kcal: 304, tbsp: 21, tsp: 7 },
+  sugar:           { kcal: 387, tsp: 4 },
+  soy_sauce:       { kcal: 53, tbsp: 16, tsp: 5 },
+  sesame_oil:      { kcal: 884, tbsp: 13.5, tsp: 4.5, drops: 1 },
+  sesame_seeds:    { kcal: 573, tbsp: 9, tsp: 3 },
+  rice_vinegar:    { kcal: 18 },
+  miso:            { kcal: 199, tbsp: 17 },
+  dashi:           { kcal: 5 },
+  wakame:          { kcal: 45, tbsp: 2 },
+  nori:            { kcal: 35, each: 3 },
+  kimchi:          { kcal: 15 },
+  chicken_broth:   { kcal: 5 },
+  fish_sauce:      { kcal: 35, tbsp: 18 },
+  red_lentils:     { kcal: 358 },
+  brown_lentils:   { kcal: 352 },
+  chickpeas:       { kcal: 85 },
+  tomato_paste:    { kcal: 82, tbsp: 16 },
+  mustard:         { kcal: 66, tsp: 5 },
+  cornstarch:      { kcal: 381, tbsp: 8 },
+  peanuts:         { kcal: 567, handful: 30 },
+  gochujang:       { kcal: 200, tbsp: 20 },
+  salt:            { kcal: 0 },
+  pepper:          { kcal: 251, tsp: 2.3 },
+  paprika:         { kcal: 282, tsp: 2.3 },
+  cumin:           { kcal: 375, tsp: 2 },
+  cinnamon:        { kcal: 247, tsp: 2.6, stick: 3 },
+  zaatar:          { kcal: 300, tbsp: 6 },
+  chili_flakes:    { kcal: 318, tsp: 1.8 },
+  turmeric:        { kcal: 312, tsp: 3 },
+  star_anise:      { kcal: 337, each: 1 },
+  ground_coriander:{ kcal: 298, tsp: 2 },
+  garam_masala:    { kcal: 379, tsp: 2 },
+};
+
+// Grams of an ingredient from its English quantity string, or null if it isn't counted
+// ("to taste", "to serve", a pinch...).
+function gramsOf(id, qen) {
+  const n = NUTRI[id]; if (!n) return null;
+  const s = String(qen).trim();
+  if (/^(to taste|to serve|for salad|pinch)/.test(s)) return null;
+  const paren = s.match(/\(~?\s*(\d+(?:\.\d+)?)\s*(g|ml)\)/);
+  if (paren) return parseFloat(paren[1]);
+  const FR = { "½": 0.5, "¼": 0.25, "¾": 0.75, "⅓": 1 / 3, "⅔": 2 / 3 };
+  const numTok = "(\\d+(?:\\.\\d+)?)?\\s?([½¼¾⅓⅔])?";
+  const m = s.match(new RegExp("^" + numTok + "(?:\\s?[–-]\\s?" + numTok + ")?"));
+  const val = (a, b) => (a ? parseFloat(a) : 0) + (b ? FR[b] : 0);
+  let qty = 1, rest = s;
+  if (m && (m[1] || m[2])) {
+    qty = val(m[1], m[2]);
+    if (m[3] || m[4]) qty = (qty + val(m[3], m[4])) / 2;      // "2–4 slices" → 3
+    rest = s.slice(m[0].length).trim();
+  } else if (/^big handful/.test(s)) { qty = 1.5; rest = "handful"; }
+  else if (/^small handful/.test(s)) { qty = 0.5; rest = "handful"; }
+  else if (/^a few drops/.test(s)) { qty = 3; rest = "drops"; }
+  let mult = 1;
+  if (/^small\s/.test(rest)) { mult = 0.6; rest = rest.slice(6); }
+  if (/^large\b/.test(rest)) { mult = 1.4; rest = ""; }
+  const unit = (rest.match(/^[a-zA-Z]+/) || [""])[0].toLowerCase();
+  const each = n.each || 100;
+  const per = {
+    g: 1, kg: 1000, ml: 1, l: 1000,
+    tbsp: n.tbsp || 15, tsp: n.tsp || 5, cup: n.cup || 240,
+    handful: n.handful || 30, handfuls: n.handful || 30,
+    head: n.head || 300, thumb: n.thumb || 15, stick: n.stick || each,
+    bowl: n.bowl || 150, bowls: n.bowl || 150, can: n.can || 400, cans: n.can || 400,
+    drops: n.drops || 1,
+  }[unit];
+  return qty * mult * (per !== undefined ? per : each);   // cloves, slices, stalks, packs, sheet, ripe, "" → each
+}
+// Calories for one recipe (non-optional ingredients only).
+function recipeKcal(r) {
+  let total = 0;
+  for (const [id, qen, , opt] of r.ingredients) {
+    if (opt) continue;
+    const g = gramsOf(id, qen);
+    if (g) total += (g * NUTRI[id].kcal) / 100;
+  }
+  return { total, perServing: total / r.serves };
+}
